@@ -1,0 +1,53 @@
+services:
+
+  duckdns:
+    image: linuxserver/duckdns
+    container_name: duckdns
+    environment:
+      - PUID=1000 #optional
+      - PGID=1000 #optional
+      - TZ=America/Argentina/Mendoza
+      - SUBDOMAINS= #coloca tu subdominio aqui
+      - TOKEN= #coloca tu token aqui
+      - LOG_FILE=false #optional
+    volumes:
+      - /path/to/appdata/config:/config #optional
+    restart: unless-stopped
+
+  nginx-proxy:
+    image: nginxproxy/nginx-proxy
+    container_name: nginx-proxy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - conf:/etc/nginx/conf.d
+      - vhost:/etc/nginx/vhost.d
+      - html:/usr/share/nginx/html
+      - certs:/etc/nginx/certs:ro
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+
+  acme-companion:
+    image: nginxproxy/acme-companion
+    restart: unless-stopped
+    container_name: nginx-proxy-acme
+    environment:
+      - DEFAULT_EMAIL=nahuel@gmail.com
+    volumes_from:
+      - nginx-proxy
+    volumes:
+      - certs:/etc/nginx/certs:rw
+      - acme:/etc/acme.sh
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
+  web:
+    image: nginx
+    restart: unless-stopped
+    volumes:
+      - ./templates:/usr/share/nginx/html:ro
+    expose:
+      - "80"
+    environment:
+      - VIRTUAL_HOST=www.palacionahuel.com,palacionahuel.com #DEBES CAMBIAR ESTO
+      - LETSENCRYPT_HOST=www.palacionahuel.com,palacionahuel.com #DEBES CAMBIAR ESTO
