@@ -42,3 +42,39 @@ En `docker-compose.yml`:
 # En el servicio web:
 - VIRTUAL_HOST=www.tu-dominio.duckdns.org,tu-dominio.duckdns.org
 - LETSENCRYPT_HOST=www.tu-dominio.duckdns.org,tu-dominio.duckdns.org
+```
+
+## Volúmenes
+
+Se utilizan volúmenes persistentes para certificados, configuraciones y contenido web:
+
+volumes:
+
+  conf:
+  
+  vhost:
+  
+  html:
+  
+  certs:
+  
+  acme:
+  
+
+## Iniciar el proyecto
+
+Clona este repositorio:
+
+    git clone https://github.com/PNahuel5588/MasterTux.git
+
+    cd MasterTux/
+
+Configura tus datos en docker-compose.yml.
+
+Levanta los servicios:
+
+    docker compose up -d
+
+Accede a tu sitio desde:
+
+https://tu-dominio.duckdns.org
