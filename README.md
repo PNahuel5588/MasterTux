@@ -1,4 +1,4 @@
-# 🌐 Servidor con Nginx Proxy, DuckDNS y Let's Encrypt 🔐
+# 🌐 Servidor con Nginx Proxy, DuckDNS y Let's Encrypt
 
 Este proyecto utiliza Docker Compose para levantar un servidor web con las siguientes funcionalidades:
 
@@ -48,7 +48,7 @@ En `docker-compose.yml`:
 # En el servicio web:
 - VIRTUAL_HOST=www.tu-dominio.duckdns.org,tu-dominio.duckdns.org
 - LETSENCRYPT_HOST=www.tu-dominio.duckdns.org,tu-dominio.duckdns.org
-
+```
 ## 💾 Volúmenes
 
 Se utilizan volúmenes persistentes para certificados, configuraciones y contenido web:
